@@ -119,11 +119,11 @@ if __name__ == '__main__':
             classifier_f = open("naivebayes.pickle", "rb")
             NBayesClassifier = pickle.load(classifier_f)
             classifier_f.close()
-
+            print(NBayesClassifier)
             pickle_out = open("dict.pickle", "rb")
             word_features = pickle.load(pickle_out).keys()
             pickle_out.close()
-
+            print(word_features)
 
 
             # run the classifier on the preprocessed test dataset
