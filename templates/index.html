@@ -1,0 +1,745 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crops For the Future - Sentiment Analysis</title>
+<link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet" type="text/css">
+<style type="text/css">
+	body {
+    	overflow:hidden;
+		overflow: -moz-scrollbars-none;
+	}
+
+	::webkit-scrollbar {
+		display: none;
+	}
+
+
+	::placeholder {
+ 		color:#B8B8B8;
+	}
+
+	html * {
+		font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	}
+
+	.bgimage{
+		background-image: url(../static/img/cornfieldbg.jpg);
+		background-size: cover;
+		width: 100%;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		filter:blur(6px)
+		brightness(75%);
+		transform: scale(1.02);
+	}
+
+	/* first page div*/
+	.main1 {
+		transition: all 1s ease;
+		position: absolute;
+		top: 25%;
+		width: 50%;
+		left: 25%;
+		height: 80px;
+		display: block;
+	}
+	/* second page div*/
+	.main2 {
+		transition: all 1s ease;
+		transition-delay: 1.5s;
+		opacity: 0;
+		position: absolute;
+		width: 100%;
+		height: 90%;
+		top: 100%;
+		disabled: true;
+	}
+	.main3 {
+		transition: all 1s ease;
+		opacity: 0;
+		position: absolute;
+		width: 100%;
+		top: 100%;
+		height: 90vh;
+		text-align: center;
+		overflow: hidden;
+	}
+	/*dropdown menu*/
+	.drpdwn {
+		font-size: 25px;
+		transition: background-color .5s ease;
+		/*margin-top: 20%;*/
+		margin-left: 1%;
+		height: 100%;
+		width: 30%;
+		height: 75%;
+	}
+	.drpdwn:hover {
+		background-color: #E77013;
+	}
+	.drpdwn:focus {
+		background-color: #E77013;
+	}
+	/*search box*/
+	.srchbox {
+		padding: 5px;
+		font-size: 25px;
+		transition: background-color .5s ease;
+		border: thin;
+		height: 75%;
+		width: 66%;
+	}
+
+	.srchbox:hover {
+		background-color: #E77013;
+	}
+
+	.srchbox:focus {
+		background-color: #E77013;
+	}
+	/*search button*/
+	#srchbtn {
+		transition: all .5s ease;
+		background: #333;
+		position: absolute;
+		border: thin #FFFFFF;
+		width: 25%;
+		margin-top: 10%;
+		height: 75%;
+		left: 37.5%;
+	}
+	#srchbtn:hover {
+		color: #FFFFFF;
+		background-color: #E77013;
+	}
+
+	.eswdiv {
+		transition: all .5s ease-in;
+		margin-top: 20%;
+		background-color: #E00003;
+		opacity: 0;
+	}
+	.eswdiv p {
+		color: white;
+		font-weight: bold;
+		opacity: 1;
+	}
+
+	/* "Searching..." text after clicking search button*/
+	#searchtext, #finalMessage, #resultsText {
+		font-size: 50px;
+	}
+
+	#finalMessage {
+		text-align: center;
+	}
+
+	#backbtn, #cancelbtn, #results {
+		transition: all 0.5s ease;
+		border: none;
+		background: #333;
+		position: absolute;
+		left: 90%;
+		top: 90%;
+	}
+	#backbtn {
+		top: 4%;
+		left: 5%;
+		text-align: center;
+	}
+	#backbtn:hover, #cancelbtn:hover {
+		background: #ed802c;
+
+	}
+	#results:hover {
+		background: #96b53c;
+	}
+	#cancelbtn {
+		left: 5%;
+	}
+	#results {
+		left: 87%;
+	}
+	h4 {
+		text-align: center;
+	}
+	#container, #container1, #container2, #container3, #container4 {
+		border-radius: 50%;
+  		margin: auto;
+  		width: 200px;
+  		height: 200px;
+  		position: relative;
+	}
+	#container:hover, #container1:hover, #container2:hover, #container3:hover, #container4:hover {
+		background: #C0C0C0;
+		cursor: pointer;
+	}
+	#descboxmain1, #descboxmain2 {
+		border: 2px solid black;
+		width: 40%;
+		margin: auto;
+		margin-top: 0%;
+		background: rgba(255,255,255,0.36);
+	}
+	#descboxmain1 {
+		width: 50%;
+		height: 30vh;
+		margin-top: 1%;
+	}
+	#descriptiontxt {
+		transition: all 0.3s ease;
+	}
+	#resultimg {
+		/*height: 30%;
+		display: block;
+		margin: auto;*/
+		margin-top: 0.5%;
+		font-size: 530%;
+		font-weight: bold;
+		color: #009300;
+	}
+	#polarityValue {
+		color: #484848;
+	}
+	#resultsTable {
+		color :rgba(216,216,216,1.00);
+		border: 2px solid black;
+		width: 90%;
+		margin: auto;
+		background-color: rgba(0,0,0,0.40);
+	}
+	#tweets {
+		position: absolute;
+		color :rgba(216,216,216,1.00);
+		border: 2px solid black;
+		width: 94.35%;
+		background-color: rgba(0,0,0,0.40);
+	}
+	th {
+		text-align: center;
+	}
+	.polarityCheck {
+		text-align: center;
+	}
+
+	#home{
+		transition: all 0.5s ease;
+		top: 0%;
+		left: 0%;
+		color: white;
+		padding: 5px;
+		padding-right: 6px;
+		font-size: 40px;
+		font-weight: bold;
+	}
+
+	@-webkit-keyframes glowing {
+  0% { background-color: #6A802A; -webkit-box-shadow: 0 0 3px #6A802A; }
+  50% { background-color: #96b53c; -webkit-box-shadow: 0 0 40px #96b53c; }
+  100% { background-color: #6A802A; -webkit-box-shadow: 0 0 3px #6A802A; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #6A802A; -moz-box-shadow: 0 0 3px #6A802A; }
+  50% { background-color: #96b53c; -moz-box-shadow: 0 0 40px #96b53c; }
+  100% { background-color: #6A802A; -moz-box-shadow: 0 0 3px #6A802A; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+  50% { background-color: #96b53c; box-shadow: 0 0 40px #96b53c; }
+  100% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+}
+
+@keyframes glowing {
+  0% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+  50% { background-color: #96b53c; box-shadow: 0 0 40px #96b53c; }
+  100% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+}
+
+.button {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+</style>
+
+</head>
+
+<body>
+<div class="bgimage"></div>
+
+<div class="main1" id="main1">
+ <img alt="CFF" style="display: block; margin: -2% auto; margin-bottom: 10%; height: 150%;" src="../static/img/logo.png">
+    <form action="/search" method="POST">
+	    <input type="search" class="srchbox" id="srchbox" placeholder="Search crop..." name="search">
+
+      <select name="select" class="drpdwn" id="tweet">
+        <option value="1000">1,000 tweets</option>
+        <option value="2000">2,000 tweest</option>
+        <option value="5000">5,000 tweets</option>
+        <option value="10000">10,000 tweets</option>
+        <option value="all">whole database</option>
+      </select>
+      <!--button onClick="search()" id="srchbtn" type="button" class="btn btn-default"--><input onClick="search()" type = "submit" value = "submit" />
+    </form>
+
+	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
+</div>
+
+
+<div class="main2" id="main2">
+  <p id="searchtext"></p>
+	<table style="width:100%; margin-top: 3%;">
+		<tbody>
+			<tr>
+				<td id="c0d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container"></div></td>
+				<td id="c1d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container1"></div></td>
+				<td id="c2d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container2"></div></td>
+				<td id="c3d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container3"></div></td>
+				<td id="c4d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container4"></div></td>
+			</tr>
+			<tr>
+				<td><h4 id="info"></h4></td>
+				<td><h4 id="info1"></h4></td>
+				<td><h4 id="info2"></h4></td>
+				<td><h4 id="info3"></h4></td>
+				<td><h4 id="info4"></h4></td>
+			</tr>
+		</tbody>
+	</table>
+	<h3 id="finalMessage"></h3>
+	<div id="descboxmain1">
+		<p id="descriptiontxt" onload="descdft()"></p>
+	</div>
+  <button id="cancelbtn" onClick="cancel()" type="button" class="btn btn-default">Cancel</button>
+	<button id="results" onClick="progresscomplete()" type="button" class="btn button btn-default">Show Results</button>
+</div>
+
+<div class="main3" id="main3">
+	<div id="descboxmain2">
+		<p>Overall impression is <span id="positivity"></span>!</p>
+		<p>Polarity: <span id="polarityValue"></span></p>
+	</div>
+	<!--<img id="resultimg" alt="Result">-->
+	<p id="resultsText"></p>
+	<span id="resultimg" class="glyphicon"></span>
+	<p>Trained data overview:</p>
+
+      <table id="resultsTable" class="table-bordered">
+        <tbody>
+          <tr>
+            <th>Tweets</th>
+            <th style="width:20%">Result</th>
+            </tr>
+		  </tbody>
+		</table>
+	<div style="position: absolute; left: 0; right: 0; height: 25vh; width: 96.5%; margin: auto; margin-right: -1.5%; overflow:auto;">
+		<table id="tweets" class="table-bordered">
+			 <tbody>
+
+			 </tbody>
+        </table>
+    </div>
+
+	<button id="backbtn" onClick="back()" type="button" class="btn btn-default"><span id="home" class="glyphicon">&#xe021;</span></button>
+</div>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='progressbar.min.js') }}"></script>
+<script>
+	// progressbar.js@1.0.0 version is used
+	// Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+
+	var finalMessage = document.getElementById('finalMessage');
+	var tweetAmount = document.getElementById('tweet');
+	var avgStroke = 6;
+	var avgTrail = 4;
+	// Loading times may vary per progress bar, used for debugging purposes for now
+	var avgLoading = 1000;
+
+	var bar = new ProgressBar.Circle(container, {
+  		color: '#aaa',
+  		// This has to be the same size as the maximum width to
+  		// prevent clipping
+  		strokeWidth: avgStroke,
+  		trailWidth: avgTrail,
+  		easing: 'easeInOut',
+  		duration: avgLoading,
+  		text: {
+    		autoStyleContainer: false
+  		},
+  		from: { color: '#aaa', width: avgTrail },
+  		to: { color: '#253E6B', width: avgStroke },
+  		// Set default step function for all animate calls
+  		step: function(state, circle) {
+    		circle.path.setAttribute('stroke', state.color);
+    		circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 100);
+    		if (value === 0) {
+     			circle.setText('');
+    		} else {
+				circle.setText(value + "%");
+    		}
+
+			if (value == 100) {
+				loadingBar1();
+			}
+  		}
+	});
+	bar.text.style.fontFamily = 'Helvetica, sans-serif';
+	bar.text.style.fontSize = '5rem';
+	bar.text.style.color= '#333';
+
+	var bar1 = new ProgressBar.Circle(container1, {
+  		color: '#aaa',
+  		// This has to be the same size as the maximum width to
+  		// prevent clipping
+  		strokeWidth: avgStroke,
+  		trailWidth: avgTrail,
+  		easing: 'easeInOut',
+  		duration: avgLoading,
+  		text: {
+    		autoStyleContainer: false
+  		},
+  		from: { color: '#aaa', width: avgTrail },
+  		to: { color: '#96B53C', width: avgStroke },
+  		// Set default step function for all animate calls
+  		step: function(state, circle) {
+    		circle.path.setAttribute('stroke', state.color);
+    		circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 100);
+    		if (value === 0) {
+     			circle.setText('');
+    		} else {
+				circle.setText(value + "%");
+    		}
+
+			if (value == 100) {
+				loadingBar2();
+			}
+  		}
+	});
+	bar1.text.style.fontFamily = 'Helvetica, sans-serif';
+	bar1.text.style.fontSize = '5rem';
+	bar1.text.style.color= '#333';
+
+	var bar2 = new ProgressBar.Circle(container2, {
+  		color: '#aaa',
+  		// This has to be the same size as the maximum width to
+  		// prevent clipping
+  		strokeWidth: avgStroke,
+  		trailWidth: avgTrail,
+  		easing: 'easeInOut',
+  		duration: avgLoading,
+  		text: {
+    		autoStyleContainer: false
+  		},
+  		from: { color: '#aaa', width: avgTrail },
+  		to: { color: '#ED802C', width: avgStroke },
+  		// Set default step function for all animate calls
+  		step: function(state, circle) {
+    		circle.path.setAttribute('stroke', state.color);
+    		circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 100);
+    		if (value === 0) {
+     			circle.setText('');
+    		} else {
+				circle.setText(value + "%");
+    		}
+
+			if (value == 100) {
+				loadingBar3();
+			}
+  		}
+	});
+	bar2.text.style.fontFamily = 'Helvetica, sans-serif';
+	bar2.text.style.fontSize = '5rem';
+	bar2.text.style.color= '#333';
+
+	var bar3 = new ProgressBar.Circle(container3, {
+  		color: '#aaa',
+  		// This has to be the same size as the maximum width to
+  		// prevent clipping
+  		strokeWidth: avgStroke,
+  		trailWidth: avgTrail,
+  		easing: 'easeInOut',
+  		duration: avgLoading,
+  		text: {
+    		autoStyleContainer: false
+  		},
+  		from: { color: '#aaa', width: avgTrail },
+  		to: { color: '#97B0D0', width: avgStroke },
+  		// Set default step function for all animate calls
+  		step: function(state, circle) {
+    		circle.path.setAttribute('stroke', state.color);
+    		circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 100);
+    		if (value === 0) {
+     			circle.setText('');
+    		} else {
+				circle.setText(value + "%");
+    		}
+
+			if (value == 100) {
+				loadingBar4();
+			}
+  		}
+	});
+	bar3.text.style.fontFamily = 'Helvetica, sans-serif';
+	bar3.text.style.fontSize = '5rem';
+	bar3.text.style.color= '#333';
+
+	var bar4 = new ProgressBar.Circle(container4, {
+  		color: '#aaa',
+  		// This has to be the same size as the maximum width to
+  		// prevent clipping
+  		strokeWidth: avgStroke,
+  		trailWidth: avgTrail,
+  		easing: 'easeInOut',
+  		duration: avgLoading,
+  		text: {
+    		autoStyleContainer: false
+  		},
+  		from: { color: '#aaa', width: avgTrail },
+  		to: { color: '#fff', width: avgStroke },
+  		// Set default step function for all animate calls
+  		step: function(state, circle) {
+    		circle.path.setAttribute('stroke', state.color);
+    		circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 100);
+    		if (value === 0) {
+     			circle.setText('');
+    		} else {
+				circle.setText(value + "%");
+    		}
+			// Last progress bar shows the final message
+			if (value == 100) {
+				finalMessage.innerHTML = "Done!";
+				document.getElementById("results").style = "opacity: 1;";
+				document.getElementById("results").disabled = false;
+			} else {
+				finalMessage.innerHTML = "...";
+				document.getElementById("results").style = "opacity: 0;";
+			}
+  		}
+	});
+	bar4.text.style.fontFamily = 'Helvetica, sans-serif';
+	bar4.text.style.fontSize = '5rem';
+	bar4.text.style.color= '#333';
+
+	function search() {
+		var search = document.getElementById("srchbox").value;
+		var searchtext = document.getElementById("searchtext");
+		document.getElementById("results").disabled = true;
+		if (search == "") {
+			document.getElementById("eswdiv").style.opacity="0.7";
+		} else {
+			document.getElementById("eswdiv").style.opacity="0";
+			document.getElementById("main1").style="transition-delay:0s; opacity:0; top:-20%;";
+			document.getElementById("main2").style="transition-delay:0.3s; top:5%; opacity:1;";
+			var main1 = document.getElementById("main1");
+			main1.style.top="-20%";
+			searchtext.innerHTML = "Searching " + search + "...";
+			loadingBar();
+
+			//condition to select result image (positive or negative)
+			if (search == "corn") {
+				//document.getElementById("resultimg").src="img/negative.png";
+				document.getElementById("resultimg").style="color: #ff0000;";
+				document.getElementById("resultimg").classList.remove('glyphicon-ok');
+				document.getElementById("resultimg").classList.add('glyphicon-remove');
+			} else {
+				//document.getElementById("resultimg").src="img/positive.png";
+				document.getElementById("resultimg").style="color: #009300;";
+				document.getElementById("resultimg").classList.add('glyphicon-ok');
+				document.getElementById("resultimg").classList.remove('glyphicon-remove');
+			}
+		}
+	}
+
+	function cancel() {
+		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
+		document.getElementById("main2").style="transition-delay:0s; opacity:0;";
+		stopAll();
+		resetAll();
+	}
+
+	function back() {
+		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
+		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:100%;";
+		document.getElementById("main3").style="transition-delay:0s; opacity:0; top: 100%";
+		resetAll();
+	}
+
+	function progresscomplete() {
+		var search = document.getElementById("srchbox").value;
+		var impression = document.getElementById("positivity");
+		var results = document.getElementById("resultsText");
+		var polarity;
+		if (search == "corn") {
+			polarity = 27;
+		} else {
+			polarity = 58;
+		}
+		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:-100%;";
+		document.getElementById("main3").style="transition-delay:0.3s; top:5%; opacity:1;";
+		switch(tweetAmount.value) {
+			case '1000':
+				results.innerHTML = "Results for " + search + " in the last 1,000 tweets:";
+				break;
+			case '2000':
+				results.innerHTML = "Results for " + search + " in the last 2,000 tweets:";
+				break;
+			case '5000':
+				results.innerHTML = "Results for " + search + " in the last 5,000 tweets:";
+				break;
+			case '10000':
+				results.innerHTML = "Results for " + search + " in the last 10,000 tweets:";
+				break;
+			case 'all':
+				results.innerHTML = "Results for " + search + " in the entire database:";
+				break;
+		}
+		if (polarity > 50 && polarity <= 100) {
+			impression.style = "color:#009300;";
+			impression.innerHTML = "positive";
+		} else if (polarity >= 0 && polarity < 50) {
+			impression.style = "color:#ff0000;";
+			impression.innerHTML = "negative";
+		} else {
+			impression.style = "color:white";
+			impression.innerHTML = "neutral";
+		}
+		document.getElementById("polarityValue").innerHTML = polarity + "%";
+		insertData();
+
+	}
+
+	//description box contents
+	function desc(id) {
+		document.getElementById("descriptiontxt").style.opacity=0;
+		setTimeout(function(){
+		switch(id){
+			case "c0d":
+				document.getElementById("descriptiontxt").innerHTML="Searching for tweets<br><h1>Building the Testing dataset by looking up tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
+				break;
+			case "c1d":
+				document.getElementById("descriptiontxt").innerHTML="Retrieving training data<br><h1>Building the Training dataset by looking up trained tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
+				break;
+			case "c2d":
+				document.getElementById("descriptiontxt").innerHTML="Preprocessing data<br><h1>Converting retrieved tweets (both trained and untrained) to lower-case while removing links, hashtags and usernames (if any)</h1>";
+				break;
+			case "c3d":
+				document.getElementById("descriptiontxt").innerHTML="Training data<br><h1>Using Naive Bayes' Classification to get the polarity and the number of matching tweets</h1>";
+				break;
+			case "c4d":
+				document.getElementById("descriptiontxt").innerHTML="Retrieving results<br><h1>Calculating the overall polarity percentage from the newly-trained data</h1>";
+				break;
+		}
+		document.getElementById("descriptiontxt").style.opacity=1;
+		},150);
+	}
+
+	function insertData() {
+		var table = document.getElementById("tweets");
+		var total = 4;
+		var input = ' {"tweets": [{ "text": "qwertyasdf", "label": 1 }, { "text": "ytrewqfdsa", "label": 0 }, { "text": "qwertyuiop", "label": 1 }, { "text": "asdfghjklp", "label": 0 } ]}';
+		obj = JSON.parse(input);
+		for (var i = 0; i < total; i++) {
+			var row = table.insertRow(-1);
+			var text = row.insertCell(0);
+			var label = row.insertCell(1);
+			text.innerHTML = obj.tweets[i].text;
+			if (i == 0) {
+				text.style = "width: 80%";
+			}
+			if (obj.tweets[i].label == 1) {
+				label.style = "color: #00ff00";
+				label.innerHTML = "&#10004;";
+			} else if (obj.tweets[i].label == 0) {
+				label.style = "color: #ff0000";
+				label.innerHTML = "&#10006;";
+			}
+		}
+	}
+
+	function descdft() {
+		document.getElementById("descriptiontxt").style.opacity=0;
+		setTimeout(function(){
+		document.getElementById("descriptiontxt").innerHTML="Description<br><h1>Hover on progress bars to see description of task being performed</h1>";
+			document.getElementById("descriptiontxt").style.opacity=1;
+		}, 150);
+	}
+
+	function loadingBar() {
+		info.innerHTML = "Searching for tweets...";
+		bar.animate(1.0);  // Number from 0.0 to 1.0
+	}
+	function loadingBar1() {
+		info1.innerHTML = "Retrieving training data...";
+		bar1.animate(1.0);  
+	}
+	function loadingBar2() {
+		info2.innerHTML = "Preprocessing data...";
+		bar2.animate(1.0);  
+	}
+	function loadingBar3() {
+		info3.innerHTML = "Training data...";
+		bar3.animate(1.0);  
+	}
+	function loadingBar4() {
+		info4.innerHTML = "Retrieving results...";
+		bar4.animate(1.0);  
+	}
+	
+	// Used to halt progress upon clicking 'cancel', followed
+	// by the resetAll function
+	function stopAll() {
+		bar.stop();
+		bar1.stop();
+		bar2.stop();
+		bar3.stop();
+		bar4.stop();
+	}
+	
+	function resetAll() {
+		info.innerHTML = "";
+		bar.set(0);
+		
+		info1.innerHTML = "";
+		bar1.set(0);
+		
+		info2.innerHTML = "";
+		bar2.set(0);
+		
+		info3.innerHTML = "";
+		bar3.set(0);
+		
+		info4.innerHTML = "";
+		bar4.set(0);
+	}
+</script>
+</body>
+</html>
