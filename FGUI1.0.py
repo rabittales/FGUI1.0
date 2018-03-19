@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from multiprocessing import Pool, cpu_count
 import numpy as np
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, jsonify
 from tqdm import tqdm
 
 
@@ -56,7 +56,7 @@ class PreProcessTweets:
 
 
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/static')
 
 @app.route('/')
 def index():
@@ -66,8 +66,11 @@ if __name__ == '__main__':
 
     @app.route('/search', methods=['POST', 'GET'])
     def search():
+
         if request.method == 'POST':
+            result = []
             input=request.form.to_dict(flat=False)
+            print(request.form)
             print(request.form.to_dict(flat=False))
 
             def createDataSet(in_string):  # function to build the test and training dataset
@@ -78,10 +81,11 @@ if __name__ == '__main__':
                 temp_string = []  # used to hold the input string temporarily
 
                 # make sure the input string comprises of characters
-                for i in in_string:
-                    temp_string.append(i)
-                search_term = ''.join(temp_string[1:len(temp_string) - 1])
-
+               # for i in in_string:
+               #     temp_string.append(i)
+               # search_term = ''.join(temp_string[1:len(temp_string) - 1])
+              #  print("search:", search_term)
+                search_term = in_string
                 count = 0  # fetched tweets counter
                 with open(file_name, 'r') as f:
                     print("Searching for tweets...")
@@ -90,6 +94,11 @@ if __name__ == '__main__':
                         if search_term in t["text"]:
                             testData.append({"text": t["text"], "label": "neutral"})
                             count += 1
+                    if count == 0 :
+                        return
+
+
+
 
             def extract_features(tweet):
                 # function to take each tweet in the training data and represent it with
@@ -109,7 +118,8 @@ if __name__ == '__main__':
             testData = []
 
             search_string = input['search']  # prompt user for search keyword
-            createDataSet(search_string)  # build test and training dataset
+            print("search term before:",search_string[0])
+            createDataSet(search_string[0])  # build test and training dataset
 
             tweetProcessor = PreProcessTweets()
 
@@ -142,6 +152,7 @@ if __name__ == '__main__':
 
             # print output
             i = 0
+
             with open('test1.json', 'a') as f:
                 while i < len(testData):
                     print("Polarity: " + json.dumps(NBResultLabels[i]) + " || Text: " + json.dumps(testData[i]["text"]))
@@ -149,11 +160,13 @@ if __name__ == '__main__':
                         'text': json.dumps(testData[i]["text"]),
                         'Polarity': json.dumps(NBResultLabels[i])
                     }
+                    result.append(data)
                     json.dump(data, f)
                     f.write('\n')
                     i += 1
             a = "hello"
-        return a
+            print(result)
+        return jsonify(result)
 
 
     app.run(debug=True)
