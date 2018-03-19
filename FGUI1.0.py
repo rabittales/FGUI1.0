@@ -152,7 +152,8 @@ if __name__ == '__main__':
                     json.dump(data, f)
                     f.write('\n')
                     i += 1
-        return redirect('/')
+            a = "hello"
+        return a
 
 
     app.run(debug=True)
