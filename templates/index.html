@@ -38,7 +38,7 @@
         <option value="10000">10,000 tweets</option>
         <option value="all">whole database</option>
       </select>
-      <!--button onClick="search()" id="srchbtn" type="button" class="btn btn-default"--><input type = "submit" value = "submit" />
+      <!--button onClick="search()" id="srchbtn" type="button" class="btn btn-default"--><input id="srchbtn" class="btn btn-default" type = "submit" value = "submit" />
     </form>
 
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
@@ -307,12 +307,14 @@
 
 	function search() {
 		var search = document.getElementById("srchbox").value;
+		var select = document.getElementById("tweet").value;
+		Response=0;
 		console.log(search);
 		//@TODO: ajax!!!
         $.ajax({
-            url: "/search",
+            url: "/",
             type: "POST",
-            data: {search : search },
+            data: {search : search , select : select },
             success: function(response){
                 Response =response;
                 console.log(response);
@@ -354,6 +356,7 @@
 	function cancel() {
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style="transition-delay:0s; opacity:0;";
+		Response=0;
 		stopAll();
 		resetAll();
 	}
@@ -362,6 +365,7 @@
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:100%;";
 		document.getElementById("main3").style="transition-delay:0s; opacity:0; top: 100%";
+		Response= 0;
 		resetAll();
 	}
 
