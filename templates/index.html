@@ -36,9 +36,9 @@
         <option value="2000">2,000 tweest</option>
         <option value="5000">5,000 tweets</option>
         <option value="10000">10,000 tweets</option>
-        <option value="all">whole database</option>
+        <option value="100000">whole database</option>
       </select>
-      <!--button onClick="search()" id="srchbtn" type="button" class="btn btn-default"--><input id="srchbtn" class="btn btn-default" type = "submit" value = "submit" />
+      <input id="srchbtn" class="btn btn-default" type = "submit" value = "submit" />
     </form>
 
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
@@ -150,9 +150,6 @@
 				circle.setText(value + "%");
     		}
 
-			if (value == 100) {
-				loadingBar1();
-			}
   		}
 	});
 	bar.text.style.fontFamily = 'Helvetica, sans-serif';
@@ -319,7 +316,13 @@
                 Response =response;
                 console.log(response);
                // insertData(Response);
-
+				loadingBar1();
+            },
+            error : function(xhr,errmsg,err) {
+            // show status code and response content
+                alert("No tweets Found!!!!!");
+                Response == -1;
+                cancel();
             }
         });
         //request.setRequestHeader("Content-type","application/x-www-form-urlecoded"
