@@ -152,7 +152,7 @@ def search():
 
         # print output
         i = 0
-
+        limit =100;
         with open('test1.json', 'a') as f:
             while i < len(testData):
                 print("Polarity: " + json.dumps(NBResultLabels[i]) + " || Text: " + json.dumps(testData[i]["text"]))
@@ -160,7 +160,8 @@ def search():
                     'text': json.dumps(testData[i]["text"]),
                     'Polarity': json.dumps(NBResultLabels[i])
                 }
-                result.append(data)
+                if(i <= limit):
+                    result.append(data)
                 json.dump(data, f)
                 f.write('\n')
                 i += 1
