@@ -312,6 +312,7 @@
                 console.log(response);
                // insertData(Response);
 				loadingBar1();
+
             },
             error : function(xhr,errmsg,err) {
             // show status code and response content
@@ -322,6 +323,7 @@
         });
         //request.setRequestHeader("Content-type","application/x-www-form-urlecoded"
 		var searchtext = document.getElementById("searchtext");
+
 		document.getElementById("results").disabled = true;
 		if (search == "") {
 			document.getElementById("eswdiv").style.opacity="0.7";
@@ -337,18 +339,7 @@
 			searchtext.innerHTML = "Searching " + search + "...";
 			loadingBar();
 
-			//condition to select result image (positive or negative)
-			if (search == "corn") {
-				//document.getElementById("resultimg").src="img/negative.png";
-				document.getElementById("resultimg").style="color: #ff0000;";
-				document.getElementById("resultimg").classList.remove('glyphicon-ok');
-				document.getElementById("resultimg").classList.add('glyphicon-remove');
-			} else {
-				//document.getElementById("resultimg").src="img/positive.png";
-				document.getElementById("resultimg").style="color: #009300;";
-				document.getElementById("resultimg").classList.add('glyphicon-ok');
-				document.getElementById("resultimg").classList.remove('glyphicon-remove');
-			}
+
 		}
 
 		return false;
@@ -360,6 +351,7 @@
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style="transition-delay:0s; opacity:0;";
 		Response=0;
+		document.getElementById("tweets").innerHTML='';
 		stopAll();
 		resetAll();
 	}
@@ -368,6 +360,8 @@
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:100%;";
 		document.getElementById("main3").style="transition-delay:0s; opacity:0; top: 100%";
+		document.getElementById("tweets").innerHTML='';
+
 		Response= 0;
 		resetAll();
 	}
@@ -376,17 +370,27 @@
 		var search = document.getElementById("srchbox").value;
 		var impression = document.getElementById("positivity");
 		var results = document.getElementById("resultsText");
-		positive =0;
-		var total = Response.length;
-		var polarity;
-		for (var i = 0; i < total; i++) {
-		    if (Response[i].Polarity == '"positive"') {
+        positive =0;
+        for (var i = 0; i < Response.length; i++) {
+            if (Response[i].Polarity == '"positive"') {
                 positive+=1;
             }
         }
-		
+        polarity = (positive/Response.length)*100;
+        console.log(polarity)
+        //condition to select result image (positive or negative)
+			if (polarity < 50) {
+				//document.getElementById("resultimg").src="img/negative.png";
+				document.getElementById("resultimg").style="color: #ff0000;";
+				document.getElementById("resultimg").classList.remove('glyphicon-ok');
+				document.getElementById("resultimg").classList.add('glyphicon-remove');
+			} else {
+				//document.getElementById("resultimg").src="img/positive.png";
+				document.getElementById("resultimg").style="color: #009300;";
+				document.getElementById("resultimg").classList.add('glyphicon-ok');
+				document.getElementById("resultimg").classList.remove('glyphicon-remove');
+			}
 
-        polarity = (positive/total)*100;
 		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:-100%;";
 		document.getElementById("main3").style="transition-delay:0.3s; top:5%; opacity:1;";
 		switch(tweetAmount.value) {
@@ -455,7 +459,7 @@
 	}
 
 	function insertData(obj) {
-		var table = document.getElementById("tweets");
+        var table = document.getElementById("tweets");
 		var total = obj.length;
 		//var input = ' {"tweets": [{ "text": "qwertyasdf", "label": 1 }, { "text": "ytrewqfdsa", "label": 0 }, { "text": "qwertyuiop", "label": 1 }, { "text": "asdfghjklp", "label": 0 } ]}';
 
