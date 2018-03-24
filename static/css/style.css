@@ -129,6 +129,19 @@ html * {
 	opacity: 1;
 }
 
+		
+.ncwdiv {
+	transition: all .5s ease-in;
+	margin-top: 0%;
+	background-color: #E00003;
+	opacity: 0;
+}
+.ncwdiv p {
+	color: white;
+	font-weight: bold;
+	opacity: 1;
+}
+
 /* "Searching..." text after clicking search button*/
 #searchtext, #finalMessage, #resultsText {
 	font-size: 50px;
@@ -187,7 +200,7 @@ h4 {
 }
 #descboxmain1 {
 	width: 50%;
-	height: 26vh;
+	height: 30%;
 	margin-top: 1%;
 }
 #descriptiontxt {
@@ -218,6 +231,7 @@ h4 {
 	color :rgba(216,216,216,1.00);
 	border: 2px solid black;
 	width: 100%;
+	margin-bottom: 5%;
 	background-color: rgba(0,0,0,0.40);
 }
 tr {
