@@ -140,7 +140,7 @@ def search():
         print("Acquiring Results...")
         NBResultLabels = [NBayesClassifier.classify(extract_features(tweet[0])) for tweet in ppTestData]
 
-        # print(NBResultLabels)
+        print(NBResultLabels)
 
         # get the majority vote and print the sentiment
         if NBResultLabels.count('positive') > NBResultLabels.count('negative'):
