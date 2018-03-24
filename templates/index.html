@@ -5,40 +5,32 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crops For the Future - Sentiment Analysis</title>
-<link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet" type="text/css">
-<link href= "{{ url_for('static', filename= 'style.css') }}" rel="stylesheet" type="text/css">
-<style>
-.bgimage{
-	background-image: url(../static/img/cornfieldbg.jpg);
-	background-size: cover;
-	width: 100%;
-	height: 100vh;
-	top: 0;
-	left: 0;
-	z-index: -1;
-	filter:blur(6px)
-	brightness(75%);
-	transform: scale(1.02);
-}
-</style>
+<link href="../static/css/style.css" rel="stylesheet" type="text/css">
+<link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+	
+	<style type="text/css">
+		html * {
+		font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+		}
+	</style>
 </head>
 
 <body>
 <div class="bgimage"></div>
 
 <div class="main1" id="main1">
-  <img alt="CFF" style="display: block; margin: -2% auto; margin-bottom: 10%; height: 150%;" src="{{ url_for('static', filename= 'img/cfflogo.png') }}">
+  <img alt="CFF" style="display: block; margin: -2% auto; margin-bottom: 10%; height: 150%;" src="../static/img/logo.png">
     <form id="search_form" method="POST">
 	    <input type="search" class="srchbox" id="srchbox" placeholder="Search crop..." name="search">
 
       <select name="select" class="drpdwn" id="tweet">
         <option value="1000">1,000 tweets</option>
-        <option value="2000">2,000 tweest</option>
+        <option value="2000">2,000 tweets</option>
         <option value="5000">5,000 tweets</option>
         <option value="10000">10,000 tweets</option>
         <option value="100000">whole database</option>
       </select>
-      <input id="srchbtn" class="btn btn-default" type = "submit" value = "submit" />
+      <input id="srchbtn" class="btn btn-default" type = "submit" value = "Search" />
     </form>
 
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
@@ -69,7 +61,7 @@
 	<div id="descboxmain1">
 		<p id="descriptiontxt" onload="descdft()"></p>
 	</div>
-  <button id="cancelbtn" onClick="cancel()" type="button" class="btn btn-default">Cancel</button>
+	<button id="cancelbtn" onClick="cancel()" type="button" class="btn btn-default">Cancel</button>
 	<button id="results" onClick="progresscomplete()" type="button" class="btn button btn-default">Show Results</button>
 </div>
 
@@ -91,7 +83,7 @@
             </tr>
 		  </tbody>
 		</table>
-	<div style="position: absolute; left: 0; right: 0; height: 25vh; width: 96.5%; margin: auto; margin-right: -1.5%; overflow:auto;">
+	<div id="tweetsdiv" style="position: relative; left: 0; right: 0; height: 25vh; width: 90%; margin:auto; overflow-y:auto;">
 		<table id="tweets" class="table-bordered">
 			 <tbody>
 
@@ -111,9 +103,9 @@
 <!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
 
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.11.3.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='progressbar.min.js') }}"></script>
+<script type="text/javascript" src="../static/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../static/bootstrap.js"></script>
+<script type="text/javascript" src="../static/progressbar.min.js"></script>
 <script>
 	// progressbar.js@1.0.0 version is used
 	// Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
@@ -355,6 +347,8 @@
 
 		return false;
 	}
+	
+	
 
 	function cancel() {
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
@@ -384,6 +378,7 @@
                 positive+=1;
             }
         }
+		
 
         polarity = (positive/total)*100;
 		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:-100%;";
@@ -417,6 +412,14 @@
 		}
 		document.getElementById("polarityValue").innerHTML = polarity + "%";
 		insertData(Response);
+		
+		var tweetsdiv = document.getElementById("tweetsdiv");
+		if (isOverflown(tweetsdiv)){
+			tweetsdiv.style.width = "91.1%";
+			tweetsdiv.style.marginLeft = "5%";
+		} else {
+			tweetsdiv.style.width = "90%";
+		}
 
 	}
 
@@ -469,6 +472,10 @@
 		}
 	}
 
+	function isOverflown(element) {
+    return element.scrollHeight > element.clientHeight;
+	}
+	
 	function descdft() {
 		document.getElementById("descriptiontxt").style.opacity=0;
 		setTimeout(function(){
