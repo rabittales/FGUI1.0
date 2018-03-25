@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crops For the Future - Sentiment Analysis</title>
+<link rel="shortcut icon" href="../static/img/logo.png">
 <link href="../static/css/style.css" rel="stylesheet" type="text/css">
 <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
 	
@@ -300,6 +301,8 @@
 	function search() {
 		var search = document.getElementById("srchbox").value;
 		var select = document.getElementById("tweet").value;
+		var searchtext = document.getElementById("searchtext");
+		resetAll();
 		Response=0;
 		console.log(search);
 		//@TODO: ajax!!!
@@ -316,13 +319,19 @@
             },
             error : function(xhr,errmsg,err) {
             // show status code and response content
-                alert("No tweets Found!!!!!");
+				
+				searchtext.style.opacity=0;
+				setTimeout(function(){
+					searchtext.innerHTML = "Sorry, no tweets have been found.";
+					searchtext.style.opacity=1;
+				}, 400);			
+				
                 Response == -1;
-                cancel();
+                //cancel();
             }
         });
         //request.setRequestHeader("Content-type","application/x-www-form-urlecoded"
-		var searchtext = document.getElementById("searchtext");
+		
 
 		document.getElementById("results").disabled = true;
 		if (search == "") {
@@ -350,12 +359,18 @@
 	
 
 	function cancel() {
-		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
-		document.getElementById("main2").style="transition-delay:0s; opacity:0;";
-		Response=0;
-		document.getElementById("tweets").innerHTML='';
-		stopAll();
-		resetAll();
+		if (Response == -1) {
+			Response = 0;
+			stopAll();
+		} else {
+			Response=0;
+			document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
+			document.getElementById("main2").style="transition-delay:0s; opacity:0;";
+			document.getElementById("tweets").innerHTML='';
+			
+		}
+		
+			
 	}
 
 	function back() {
@@ -365,7 +380,7 @@
 		document.getElementById("tweets").innerHTML='';
 
 		Response= 0;
-		resetAll();
+		
 	}
 
 	function progresscomplete() {
