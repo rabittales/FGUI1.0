@@ -119,7 +119,7 @@ html * {
 
 .eswdiv {
 	transition: all .5s ease-in;
-	margin-top: 20%;
+	margin-top: 10%;
 	background-color: #E00003;
 	opacity: 0;
 }

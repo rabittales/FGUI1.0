@@ -326,8 +326,10 @@
 
 		document.getElementById("results").disabled = true;
 		if (search == "") {
+			document.getElementById("ncwdiv").style.opacity="0";
 			document.getElementById("eswdiv").style.opacity="0.7";
-		} else if (!search.match(/^[a-zA-Z]+$/)){ //check for alphabets only
+		} else if (!search.match(/^[a-zA-Z\s]*$/)){ //check for alphabets only
+			document.getElementById("eswdiv").style.opacity="0";
 			document.getElementById("ncwdiv").style.opacity="0.7";
 		} else {
 			document.getElementById("eswdiv").style.opacity="0";
@@ -482,7 +484,7 @@
 		}
 	}
 
-	function isOverflown(element) {
+	function isOverflown(element) { //check if scrollbar is needed in results table
     return element.scrollHeight > element.clientHeight;
 	}
 	
