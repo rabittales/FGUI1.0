@@ -302,6 +302,7 @@
 		var search = document.getElementById("srchbox").value;
 		var select = document.getElementById("tweet").value;
 		var searchtext = document.getElementById("searchtext");
+		document.getElementById("tweets").innerHTML='';
 		descdft();
 		resetAll();
 		Response=0;
@@ -367,7 +368,6 @@
 			Response=0;
 			document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 			document.getElementById("main2").style="transition-delay:0s; opacity:0;";
-			document.getElementById("tweets").innerHTML='';
 			
 		}
 		
@@ -378,7 +378,7 @@
 		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:100%;";
 		document.getElementById("main3").style="transition-delay:0s; opacity:0; top: 100%";
-		document.getElementById("tweets").innerHTML='';
+		
 
 		Response= 0;
 		
