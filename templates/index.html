@@ -413,19 +413,19 @@
 		document.getElementById("main3").style="transition-delay:0.3s; top:5%; opacity:1;";
 		switch(tweetAmount.value) {
 			case '1000':
-				results.innerHTML = "Results for " + search + " in the last 1,000 tweets:";
+				results.innerHTML = "Results for &quot" + search + "&quot in the last 1,000 tweets:";
 				break;
 			case '2000':
-				results.innerHTML = "Results for " + search + " in the last 2,000 tweets:";
+				results.innerHTML = "Results for &quot" + search + "&quot in the last 2,000 tweets:";
 				break;
 			case '5000':
-				results.innerHTML = "Results for " + search + " in the last 5,000 tweets:";
+				results.innerHTML = "Results for &quot" + search + "&quot in the last 5,000 tweets:";
 				break;
 			case '10000':
-				results.innerHTML = "Results for " + search + " in the last 10,000 tweets:";
+				results.innerHTML = "Results for &quot" + search + "&quot in the last 10,000 tweets:";
 				break;
 			case 'all':
-				results.innerHTML = "Results for " + search + " in the entire database:";
+				results.innerHTML = "Results for &quot" + search + "&quot in the entire database:";
 				break;
 		}
 		if (polarity > 50 && polarity <= 100) {
