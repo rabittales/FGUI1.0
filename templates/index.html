@@ -10,38 +10,43 @@
 	
 	<style type="text/css">
 		html * {
-		font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+			font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		}
 	</style>
 </head>
 
 <body>
+<!-- Background image -->
 <div class="bgimage"></div>
 
 <div class="main1" id="main1">
   <img alt="CFF" style="display: block; margin: -2% auto; margin-bottom: 10%; height: 150%;" src="../static/img/logo.png">
     <form id="search_form" method="POST">
-	    <input type="search" class="srchbox" id="srchbox" placeholder="Search crop..." name="search">
+		<!-- Search box -->
+		<input type="search" class="srchbox" id="srchbox" placeholder="Search crop..." name="search">
 
-      <select name="select" class="drpdwn" id="tweet">
-        <option value="100">100 tweets</option>
-        <option value="200">200 tweets</option>
-        <option value="500">500 tweets</option>
-        <option value="1000">1000 tweets</option>
-        <option value="10000">whole database</option>
-      </select>
-      <input id="srchbtn" class="btn btn-default" type = "submit" value = "Search" />
+		<!-- Dropdown menu for selecting number of tweets -->
+      	<select name="select" class="drpdwn" id="tweet">
+        	<option value="100">100 tweets</option>
+        	<option value="200">200 tweets</option>
+        	<option value="500">500 tweets</option>
+        	<option value="1000">1000 tweets</option>
+        	<option value="10000">whole database</option>
+      	</select>
+      	<input id="srchbtn" class="btn btn-default" type = "submit" value = "Search" />
     </form>
 
+	<!-- Displays error message for empty search field -->
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
 </div>
 
 
 <div class="main2" id="main2">
   <p id="searchtext"></p>
-	<table style="width:100%; margin-top: 3%;">
+	<table style="width:100%; margin-top:3%;">
 		<tbody>
 			<tr>
+				<!-- Hover over each progress bar to change description box contents -->
 				<td id="c0d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container"></div></td>
 				<td id="c1d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container1"></div></td>
 				<td id="c2d" onMouseOver="desc(this.id)" onMouseOut="descdft()"><div id="container2"></div></td>
@@ -74,20 +79,19 @@
 	<p id="resultsText"></p>
 	<span id="resultimg" class="glyphicon"></span>
 	<p>Trained data overview:</p>
-
-      <table id="resultsTable" class="table-bordered">
+	<table id="resultsTable" class="table-bordered">
         <tbody>
-          <tr>
-            <th>Tweets</th>
-            <th style="width:20%">Result</th>
+        	<tr>
+            	<th>Tweets</th>
+            	<th style="width:20%">Result</th>
             </tr>
-		  </tbody>
-		</table>
+		</tbody>
+	</table>
 	<div id="tweetsdiv" style="position: relative; left: 0; right: 0; height: 25vh; width: 90%; margin:auto; overflow-y:auto;">
 		<table id="tweets" class="table-bordered">
-			 <tbody>
-
-			 </tbody>
+			<tbody>
+			
+			</tbody>
         </table>
     </div>
 
@@ -117,6 +121,7 @@
 	// Loading times may vary per progress bar, used for debugging purposes for now
 	var avgLoading = 5000;
 
+	// New function for each progress bar
 	var bar = new ProgressBar.Circle(container, {
   		color: '#aaa',
   		// This has to be the same size as the maximum width to
@@ -149,8 +154,6 @@
 
 	var bar1 = new ProgressBar.Circle(container1, {
   		color: '#aaa',
-  		// This has to be the same size as the maximum width to
-  		// prevent clipping
   		strokeWidth: avgStroke,
   		trailWidth: avgTrail,
   		easing: 'easeInOut',
@@ -160,7 +163,6 @@
   		},
   		from: { color: '#aaa', width: avgTrail },
   		to: { color: '#96B53C', width: avgStroke },
-  		// Set default step function for all animate calls
   		step: function(state, circle) {
     		circle.path.setAttribute('stroke', state.color);
     		circle.path.setAttribute('stroke-width', state.width);
@@ -183,8 +185,6 @@
 
 	var bar2 = new ProgressBar.Circle(container2, {
   		color: '#aaa',
-  		// This has to be the same size as the maximum width to
-  		// prevent clipping
   		strokeWidth: avgStroke,
   		trailWidth: avgTrail,
   		easing: 'easeInOut',
@@ -194,7 +194,6 @@
   		},
   		from: { color: '#aaa', width: avgTrail },
   		to: { color: '#ED802C', width: avgStroke },
-  		// Set default step function for all animate calls
   		step: function(state, circle) {
     		circle.path.setAttribute('stroke', state.color);
     		circle.path.setAttribute('stroke-width', state.width);
@@ -218,8 +217,6 @@
 
 	var bar3 = new ProgressBar.Circle(container3, {
   		color: '#aaa',
-  		// This has to be the same size as the maximum width to
-  		// prevent clipping
   		strokeWidth: avgStroke,
   		trailWidth: avgTrail,
   		easing: 'easeInOut',
@@ -229,7 +226,6 @@
   		},
   		from: { color: '#aaa', width: avgTrail },
   		to: { color: '#97B0D0', width: avgStroke },
-  		// Set default step function for all animate calls
   		step: function(state, circle) {
     		circle.path.setAttribute('stroke', state.color);
     		circle.path.setAttribute('stroke-width', state.width);
@@ -252,8 +248,6 @@
 
 	var bar4 = new ProgressBar.Circle(container4, {
   		color: '#aaa',
-  		// This has to be the same size as the maximum width to
-  		// prevent clipping
   		strokeWidth: avgStroke,
   		trailWidth: avgTrail,
   		easing: 'easeInOut',
@@ -263,7 +257,6 @@
   		},
   		from: { color: '#aaa', width: avgTrail },
   		to: { color: '#fff', width: avgStroke },
-  		// Set default step function for all animate calls
   		step: function(state, circle) {
     		circle.path.setAttribute('stroke', state.color);
     		circle.path.setAttribute('stroke-width', state.width);
@@ -297,30 +290,31 @@
 	function search() {
 		var search = document.getElementById("srchbox").value;
 		var select = document.getElementById("tweet").value;
-		Response=0;
+		Response = 0;
 		console.log(search);
 		//@TODO: ajax!!!
 
         //request.setRequestHeader("Content-type","application/x-www-form-urlecoded"
 		var searchtext = document.getElementById("searchtext");
-
 		document.getElementById("results").disabled = true;
+		// Displays error message for empty search field
 		if (search == "") {
 			document.getElementById("eswdiv").style.opacity="0.7";
 		}
+		// Transitions to the second page
 		else {
-			document.getElementById("eswdiv").style.opacity="0";
-			document.getElementById("main1").style="transition-delay:0s; opacity:0; top:-20%;";
-			document.getElementById("main2").style="transition-delay:0.3s; top:5%; opacity:1;";
+			document.getElementById("eswdiv").style.opacity = "0";
+			document.getElementById("main1").style = "transition-delay:0s; opacity:0; top:-20%;";
+			document.getElementById("main2").style = "transition-delay:0.3s; top:5%; opacity:1;";
 			var main1 = document.getElementById("main1");
-			main1.style.top="-20%";
+			main1.style.top = "-20%";
 			searchtext.innerHTML = "Searching " + search + "...";
 			$.ajax({
                 url: "/",
                 type: "POST",
                 data: {search : search , select : select },
                 success: function(response){
-                    Response =response.results;
+                    Response = response.results;
                     polarity = response.polar;
                     loadingBar1();
                     console.log(response);
@@ -330,36 +324,35 @@
                 error : function(xhr,errmsg,err) {
                 // show status code and response content
                     alert("No tweets Found!!!!!");
-                    Response == -1;
+                    Response = -1;
                     cancel();
                 },
 
             });
 			loadingBar();
-
-
 		}
-
 		return false;
 	}
 	
-	
-
+	// Cancels search and resets all progress bars,
+	// transitioning back to the first page
 	function cancel() {
-		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
-		document.getElementById("main2").style="transition-delay:0s; opacity:0;";
-		Response=0;
-		document.getElementById("tweets").innerHTML='';
+		document.getElementById("main1").style = "transition-delay:0.3s; top:25%;";
+		document.getElementById("main2").style = "transition-delay:0s; opacity:0;";
+		Response = 0;
+		document.getElementById("tweets").innerHTML = '';
 		stopAll();
 		resetAll();
 	}
 
+	// Transitions back to first page, resetting
+	// all progress bars
 	function back() {
-		document.getElementById("main1").style="transition-delay:0.3s; top:25%;";
-		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:100%;";
-		document.getElementById("main3").style="transition-delay:0s; opacity:0; top: 100%";
-		document.getElementById("tweets").innerHTML='';
-		Response= 0;
+		document.getElementById("main1").style = "transition-delay:0.3s; top:25%;";
+		document.getElementById("main2").style = "transition-delay:0s; opacity:0; top:100%;";
+		document.getElementById("main3").style = "transition-delay:0s; opacity:0; top:100%";
+		document.getElementById("tweets").innerHTML = '';
+		Response = 0;
 		resetAll();
 	}
 
@@ -367,38 +360,42 @@
 		var search = document.getElementById("srchbox").value;
 		var impression = document.getElementById("positivity");
 		var results = document.getElementById("resultsText");
-
-			if (polarity < 50) {
-				//document.getElementById("resultimg").src="img/negative.png";
-				document.getElementById("resultimg").style="color: #ff0000;";
-				document.getElementById("resultimg").classList.remove('glyphicon-ok');
-				document.getElementById("resultimg").classList.add('glyphicon-remove');
-			} else {
-				//document.getElementById("resultimg").src="img/positive.png";
-				document.getElementById("resultimg").style="color: #009300;";
-				document.getElementById("resultimg").classList.add('glyphicon-ok');
-				document.getElementById("resultimg").classList.remove('glyphicon-remove');
-			}
-
-		document.getElementById("main2").style="transition-delay:0s; opacity:0; top:-100%;";
-		document.getElementById("main3").style="transition-delay:0.3s; top:5%; opacity:1;";
+		
+		if (polarity < 50) {
+			//document.getElementById("resultimg").src="img/negative.png";
+			document.getElementById("resultimg").style = "color: #ff0000;";
+			document.getElementById("resultimg").classList.remove('glyphicon-ok');
+			document.getElementById("resultimg").classList.add('glyphicon-remove');
+		} else {
+			//document.getElementById("resultimg").src="img/positive.png";
+			document.getElementById("resultimg").style = "color: #009300;";
+			document.getElementById("resultimg").classList.add('glyphicon-ok');
+			document.getElementById("resultimg").classList.remove('glyphicon-remove');
+		}
+		
+		// Transitions to third page
+		document.getElementById("main2").style = "transition-delay:0s; opacity:0; top:-100%;";
+		document.getElementById("main3").style = "transition-delay:0.3s; top:5%; opacity:1;";
+		
 		switch(tweetAmount.value) {
+			case '100':
+				results.innerHTML = "Results for " + search + " in the last 100 tweets:";
+				break;
+			case '200':
+				results.innerHTML = "Results for " + search + " in the last 200 tweets:";
+				break;
+			case '500':
+				results.innerHTML = "Results for " + search + " in the last 500 tweets:";
+				break;
 			case '1000':
 				results.innerHTML = "Results for " + search + " in the last 1,000 tweets:";
 				break;
-			case '2000':
-				results.innerHTML = "Results for " + search + " in the last 2,000 tweets:";
-				break;
-			case '5000':
-				results.innerHTML = "Results for " + search + " in the last 5,000 tweets:";
-				break;
 			case '10000':
-				results.innerHTML = "Results for " + search + " in the last 10,000 tweets:";
-				break;
-			case 'all':
 				results.innerHTML = "Results for " + search + " in the entire database:";
 				break;
 		}
+		
+		// Changes styling of polarity value
 		if (polarity > 50 && polarity <= 100) {
 			impression.style = "color:#009300;";
 			impression.innerHTML = "positive";
@@ -409,8 +406,8 @@
 			impression.style = "color:white";
 			impression.innerHTML = "neutral";
 		}
-		if(polarity <50){
-		    polarity =100-polarity;
+		if (polarity < 50){
+		    polarity = 100 - polarity;
         }
 		document.getElementById("polarityValue").innerHTML = polarity + "%";
 		insertData(Response);
@@ -425,31 +422,32 @@
 
 	}
 
-	//description box contents
+	// Description box contents
 	function desc(id) {
-		document.getElementById("descriptiontxt").style.opacity=0;
+		document.getElementById("descriptiontxt").style.opacity = 0;
 		setTimeout(function(){
 		switch(id){
 			case "c0d":
-				document.getElementById("descriptiontxt").innerHTML="Searching for tweets<br><h1>Building the Testing dataset by looking up tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
+				document.getElementById("descriptiontxt").innerHTML = "Searching for tweets<br><h1>Building the Testing dataset by looking up tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
 				break;
 			case "c1d":
-				document.getElementById("descriptiontxt").innerHTML="Retrieving training data<br><h1>Building the Training dataset by looking up trained tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
+				document.getElementById("descriptiontxt").innerHTML = "Retrieving training data<br><h1>Building the Training dataset by looking up trained tweets that contain the keyword(s) &quot" + document.getElementById("srchbox").value + "&quot</h1>";
 				break;
 			case "c2d":
-				document.getElementById("descriptiontxt").innerHTML="Preprocessing data<br><h1>Converting retrieved tweets (both trained and untrained) to lower-case while removing links, hashtags and usernames (if any)</h1>";
+				document.getElementById("descriptiontxt").innerHTML = "Preprocessing data<br><h1>Converting retrieved tweets (both trained and untrained) to lower-case while removing links, hashtags and usernames (if any)</h1>";
 				break;
 			case "c3d":
-				document.getElementById("descriptiontxt").innerHTML="Training data<br><h1>Using Naive Bayes' Classification to get the polarity and the number of matching tweets</h1>";
+				document.getElementById("descriptiontxt").innerHTML = "Training data<br><h1>Using Naive Bayes' Classification to get the polarity and the number of matching tweets</h1>";
 				break;
 			case "c4d":
-				document.getElementById("descriptiontxt").innerHTML="Retrieving results<br><h1>Calculating the overall polarity percentage from the newly-trained data</h1>";
+				document.getElementById("descriptiontxt").innerHTML = "Retrieving results<br><h1>Calculating the overall polarity percentage from the newly-trained data</h1>";
 				break;
 		}
-		document.getElementById("descriptiontxt").style.opacity=1;
+		document.getElementById("descriptiontxt").style.opacity = 1;
 		},150);
 	}
 
+	// Inserts tweets into table
 	function insertData(obj) {
         var table = document.getElementById("tweets");
 		var total = obj.length;
@@ -461,11 +459,17 @@
 			var text = row.insertCell(0);
 			var label = row.insertCell(1);
 			text.innerHTML = obj[i].text;
+			
+			// First tweet sets the width for the column
 			text.style = "width: 80%; text-align:left;";
+			
+			// Displays positive polarities with a green 'tick' symbol
 			if (obj[i].Polarity == '"positive"') {
 				label.style = "color: #00ff00";
 				label.innerHTML = "&#10004;";
-			} else if (obj[i].Polarity == '"negative"') {
+			} 
+			// Displays negative polarities with a red 'cross' symbol
+			else if (obj[i].Polarity == '"negative"') {
 				label.style = "color: #ff0000";
 				label.innerHTML = "&#10006;";
 			}
@@ -473,17 +477,20 @@
 	}
 
 	function isOverflown(element) {
-    return element.scrollHeight > element.clientHeight;
+    	return element.scrollHeight > element.clientHeight;
 	}
 	
+	// Initial description box contents
 	function descdft() {
-		document.getElementById("descriptiontxt").style.opacity=0;
+		document.getElementById("descriptiontxt").style.opacity = 0;
 		setTimeout(function(){
-		document.getElementById("descriptiontxt").innerHTML="Description<br><h1>Hover on progress bars to see description of task being performed</h1>";
-			document.getElementById("descriptiontxt").style.opacity=1;
+		document.getElementById("descriptiontxt").innerHTML = "Description<br><h1>Hover on progress bars to see description of task being performed</h1>";
+			document.getElementById("descriptiontxt").style.opacity = 1;
 		}, 150);
 	}
 
+	// Activates each progress bar from a queue,
+	// from beginning to end
 	function loadingBar() {
 		info.innerHTML = "Searching for tweets...";
 		bar.animate(1.0);  // Number from 0.0 to 1.0
@@ -505,8 +512,8 @@
 		bar4.animate(1.0);  
 	}
 	
-	// Used to halt progress upon clicking 'cancel', followed
-	// by the resetAll function
+	// Used to halt all progress bars upon clicking 
+	// 'cancel', followed by the resetAll function
 	function stopAll() {
 		bar.stop();
 		bar1.stop();
@@ -515,6 +522,8 @@
 		bar4.stop();
 	}
 	
+	// Sets the progress bars back to their starting points,
+	// one by one
 	function resetAll() {
 		info.innerHTML = "";
 		bar.set(0);
