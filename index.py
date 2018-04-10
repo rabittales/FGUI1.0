@@ -54,7 +54,35 @@ class PreProcessTweets:
     # END OF FUNCTION
 # END OF CLASS
 
+def result(tweets):
+    classifier_f = open("naivebayes.pickle", "rb")
+    NBayesClassifier = pickle.load(classifier_f)
+    classifier_f.close()
+    resultw = [NBayesClassifier.classify(extract_features(tweet[0])) for tweet in tqdm(tweets)]
+    return resultw
 
+
+def extract_features(tweet):
+    # function to take each tweet in the training data and represent it with
+    # the presence or absence of a word in the vocabulary
+
+    pickle_out = open("dict.pickle", "rb")
+    word_features = pickle.load(pickle_out).keys()
+    pickle_out.close()
+    tweet_words = set(tweet)
+    features = {}
+    for word in word_features:
+        features['contains(%s)' % word] = (word in tweet_words)
+        # this gives a dictionary with keys like 'contains word' and values as True or False
+    return features
+
+def sent(tweet):
+    p = Pool(cpu_count())
+    chunk = [x.tolist() for x in np.array_split(tweet, cpu_count())]
+    NBResult = np.concatenate([x for x in p.map(result, chunk) if len(x)>0]).tolist()
+    p.close()
+    p.join()
+    return NBResult
 
 app = Flask(__name__,static_url_path='/static')
 
@@ -74,7 +102,7 @@ def search():
             # this function searches for a keyword in a set of tweets (local database)
             # it returns tweets that contain the search keyword (test dataset)
 
-            file_name = "tweets.json"  # json file from which tweets are retrieved
+            file_name = "FinalTestingSet.json"  # json file from which tweets are retrieved
             temp_string = []  # used to hold the input string temporarily
 
             # make sure the input string comprises of characters
@@ -95,22 +123,8 @@ def search():
                             break
                 if count == 0 :
                     return
-
-
-
-
-        def extract_features(tweet):
-            # function to take each tweet in the training data and represent it with
-            # the presence or absence of a word in the vocabulary
-
-            tweet_words = set(tweet)
-            features = {}
-            for word in word_features:
-                features['contains(%s)' % word] = (word in tweet_words)
-                # this gives a dictionary with keys like 'contains word' and values as True or False
-            return features
-
         # END OF FUNCTION
+
 
 
         testData = []
@@ -125,6 +139,7 @@ def search():
 
         print("Preprocessing" + str(len(testData)) + "Test Data...")
         ppTestData = tweetProcessor.processTweets(testData)
+        print(ppTestData)
 
         classifier_f = open("naivebayes.pickle", "rb")
         NBayesClassifier = pickle.load(classifier_f)
@@ -134,21 +149,21 @@ def search():
         word_features = pickle.load(pickle_out).keys()
         pickle_out.close()
         print(word_features)
-
-
         # run the classifier on the preprocessed test dataset
         print("Acquiring Results...")
-        NBResultLabels = [NBayesClassifier.classify(extract_features(tweet[0])) for tweet in ppTestData]
+        NBResultLabels=sent(ppTestData)
+        #NBResultLabels = [NBayesClassifier.classify(extract_features(tweet[0])) for tweet in ppTestData]
 
         print(NBResultLabels)
 
         # get the majority vote and print the sentiment
         if NBResultLabels.count('positive') > NBResultLabels.count('negative'):
-            print("NB Result Positive Sentiment " + str(
-                100 * NBResultLabels.count('positive') / len(NBResultLabels)) + "%")
+            overall=100 * NBResultLabels.count('positive') / len(NBResultLabels)
+            print("NB Result Positive Sentiment " + str(overall) + "%")
         else:
-            print("NB Result Negative Sentiment " + str(
-                100 * NBResultLabels.count('negative') / len(NBResultLabels)) + "%")
+            noverall = 100 * NBResultLabels.count('negative') / len(NBResultLabels)
+            print("NB Result Negative Sentiment " + str(noverall) + "%")
+            overall = 100 -noverall
 
         # print output
         i = 0
@@ -165,9 +180,7 @@ def search():
                 json.dump(data, f)
                 f.write('\n')
                 i += 1
-        a = "hello"
-        #print(result)
-    return jsonify(result)
+    return jsonify({'results': result, 'polar': overall})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -34,7 +34,7 @@ def createDataSet():  # function to build the test and training dataset
     # this function searches for a keyword in a set of tweets (local database)
     # it returns tweets that contain the search keyword (test dataset)
 
-    file_name = "tweets.json"  # json file from which tweets are retrieved
+    file_name = "tweetd.json"  # json file from which tweets are retrieved
     temp_string = []  # used to hold the input string temporarily
 
     # make sure the input string comprises of characters
@@ -123,6 +123,7 @@ if __name__ == '__main__':
 
     print("Classifying features...")
     trainingFeatures = nltk.classify.apply_features(extract_features, ppTrainingData)
+    print(trainingFeatures)
 
     # train using Naive Bayes
     print("Running Data on Naive Bayes Classifier...")
