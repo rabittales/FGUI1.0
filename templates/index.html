@@ -461,9 +461,7 @@
 			var text = row.insertCell(0);
 			var label = row.insertCell(1);
 			text.innerHTML = obj[i].text;
-			if (i == 0) {
-				text.style = "width: 80%";
-			}
+			text.style = "width: 80%; text-align:left;";
 			if (obj[i].Polarity == '"positive"') {
 				label.style = "color: #00ff00";
 				label.innerHTML = "&#10004;";
