@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
 ===========================================================================
-	Author: 	Shubham Gunputh and Amirul Umar Bin Pandai
+	Author: 	Mayur Gunputh and Amirul Umar Bin Pandai
 	Creation Date: 	12 February 2018
 	Purpose: 	Source code for Sentiment Analysis website.
 ===========================================================================
@@ -45,6 +45,7 @@
 
 	<!-- Displays error message for empty search field -->
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
+	<div class="ncwdiv" id="ncwdiv"><p id="ncwarning">Only text without numbers and symbols accepted!</p></div>
 </div>
 
 
@@ -297,24 +298,33 @@
 	function search() {
 		var search = document.getElementById("srchbox").value;
 		var select = document.getElementById("tweet").value;
-		Response = 0;
+		var searchtext = document.getElementById("searchtext");
+		document.getElementById("tweets").innerHTML='';
+		descdft();
+		resetAll();
+		Response=0;
 		console.log(search);
 		//@TODO: ajax!!!
 
         //request.setRequestHeader("Content-type","application/x-www-form-urlecoded"
 		var searchtext = document.getElementById("searchtext");
+		
+		
+		
 		document.getElementById("results").disabled = true;
-		// Displays error message for empty search field
 		if (search == "") {
-			document.getElementById("eswdiv").style.opacity="0.7";
-		}
-		// Transitions to the second page
-		else {
-			document.getElementById("eswdiv").style.opacity = "0";
-			document.getElementById("main1").style = "transition-delay:0s; opacity:0; top:-20%;";
-			document.getElementById("main2").style = "transition-delay:0.3s; top:5%; opacity:1;";
+			document.getElementById("ncwdiv").style.opacity="0";
+			document.getElementById("eswdiv").style.opacity="0.7";  //display error for empty search field
+		} else if (!search.match(/^[a-zA-Z\s]*$/)){ //check for alphabets only
+			document.getElementById("eswdiv").style.opacity="0";
+			document.getElementById("ncwdiv").style.opacity="0.7";
+		} else { //transition to second page
+			document.getElementById("eswdiv").style.opacity="0";
+			document.getElementById("ncwdiv").style.opacity="0";
+			document.getElementById("main1").style="transition-delay:0s; opacity:0; top:-20%;";
+			document.getElementById("main2").style="transition-delay:0.3s; top:5%; opacity:1;";
 			var main1 = document.getElementById("main1");
-			main1.style.top = "-20%";
+			main1.style.top="-20%";
 			searchtext.innerHTML = "Searching " + search + "...";
 			$.ajax({
                 url: "/",
@@ -330,14 +340,22 @@
                 },
                 error : function(xhr,errmsg,err) {
                 // show status code and response content
-                    alert("No tweets Found!!!!!");
-                    Response = -1;
-                    cancel();
-                },
+                    searchtext.style.opacity=0;
+				setTimeout(function(){
+					searchtext.innerHTML = "Sorry, no tweets have been found.";
+					searchtext.style.opacity=1;
+				}, 400);			
+				
+                Response == -1;
+                //cancel();
+                }
 
             });
 			loadingBar();
 		}
+		
+		
+		
 		return false;
 	}
 	
@@ -347,9 +365,7 @@
 		document.getElementById("main1").style = "transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style = "transition-delay:0s; opacity:0;";
 		Response = 0;
-		document.getElementById("tweets").innerHTML = '';
 		stopAll();
-		resetAll();
 	}
 
 	// Transitions back to first page, resetting
@@ -358,9 +374,7 @@
 		document.getElementById("main1").style = "transition-delay:0.3s; top:25%;";
 		document.getElementById("main2").style = "transition-delay:0s; opacity:0; top:100%;";
 		document.getElementById("main3").style = "transition-delay:0s; opacity:0; top:100%";
-		document.getElementById("tweets").innerHTML = '';
 		Response = 0;
-		resetAll();
 	}
 
 	function progresscomplete() {
