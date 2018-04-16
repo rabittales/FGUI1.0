@@ -12,6 +12,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crops For the Future - Sentiment Analysis</title>
+<link rel="shortcut icon" href="../static/img/logo.png">
 <link href="../static/css/style.css" rel="stylesheet" type="text/css">
 <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
 	
@@ -46,6 +47,7 @@
 	<!-- Displays error message for empty search field -->
 	<div class="eswdiv" id="eswdiv"><p id="emptysearchwarning">Please enter crop name!</p></div>
 	<div class="ncwdiv" id="ncwdiv"><p id="ncwarning">Only text without numbers and symbols accepted!</p></div>
+	<div class="notweetsdiv" id="notweetsdiv"><p id="notweetstxt">Sorry, no tweets have been found.</p></div>
 </div>
 
 
@@ -95,7 +97,7 @@
             </tr>
 		</tbody>
 	</table>
-	<div id="tweetsdiv" style="position: relative; left: 0; right: 0; height: 25vh; width: 90%; margin:auto; overflow-y:auto;">
+	<div id="tweetsdiv">
 		<table id="tweets" class="table-bordered">
 			<tbody>
 			
@@ -105,14 +107,6 @@
 
 	<button id="backbtn" onClick="back()" type="button" class="btn btn-default"><span id="home" class="glyphicon">&#xe021;</span></button>
 </div>
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
 
 
 <script type="text/javascript" src="../static/jquery-1.11.3.min.js"></script>
@@ -314,13 +308,16 @@
 		document.getElementById("results").disabled = true;
 		if (search == "") {
 			document.getElementById("ncwdiv").style.opacity="0";
+			document.getElementById("notweetsdiv").style.opacity="0";
 			document.getElementById("eswdiv").style.opacity="0.7";  //display error for empty search field
 		} else if (!search.match(/^[a-zA-Z\s]*$/)){ //check for alphabets only
 			document.getElementById("eswdiv").style.opacity="0";
+			document.getElementById("notweetsdiv").style.opacity="0";
 			document.getElementById("ncwdiv").style.opacity="0.7";
 		} else { //transition to second page
 			document.getElementById("eswdiv").style.opacity="0";
 			document.getElementById("ncwdiv").style.opacity="0";
+			document.getElementById("notweetsdiv").style.opacity="0";
 			document.getElementById("main1").style="transition-delay:0s; opacity:0; top:-20%;";
 			document.getElementById("main2").style="transition-delay:0.3s; top:5%; opacity:1;";
 			var main1 = document.getElementById("main1");
@@ -340,14 +337,12 @@
                 },
                 error : function(xhr,errmsg,err) {
                 // show status code and response content
-                    searchtext.style.opacity=0;
+                    cancel();
 				setTimeout(function(){
-					searchtext.innerHTML = "Sorry, no tweets have been found.";
-					searchtext.style.opacity=1;
-				}, 400);			
+					document.getElementById("notweetsdiv").style.opacity="0.7"; //show no tweets found
+				}, 1050);			
 				
                 Response == -1;
-                //cancel();
                 }
 
             });

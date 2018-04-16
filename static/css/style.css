@@ -1,23 +1,21 @@
 body {
 	font-family: sans-serif;
-	overflow:hidden;
+	overflow: hidden;
 	overflow: -moz-scrollbars-none;
 }
 
 ::webkit-scrollbar {
-	display: none;
+ display: none;
 }
 
 
 ::placeholder {
-		color:#B8B8B8;
+ color:#B8B8B8;
 }
-
 html * {
 	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 }
-
-.bgimage{
+.bgimage {
 	background-image: url(../img/cornfieldbg.jpg);
 	background-size: cover;
 	width: 100%;
@@ -25,11 +23,9 @@ html * {
 	top: 0;
 	left: 0;
 	z-index: -1;
-	filter:blur(6px)
-	brightness(75%);
+	filter: blur(6px)  brightness(75%);
 	transform: scale(1.02);
 }
-
 /* first page div*/
 .main1 {
 	transition: all 1s ease;
@@ -58,10 +54,9 @@ html * {
 	width: 100%;
 	top: 100%;
 	height: 100vh;
-	text-align:center;
+	text-align: center;
 	overflow: hidden;
 }
-
 #search_form {
 	height: 100%;
 	width: 100%;
@@ -92,11 +87,9 @@ html * {
 	height: 75%;
 	width: 66%;
 }
-
 .srchbox:hover {
 	background-color: #E77013;
 }
-
 .srchbox:focus {
 	background-color: #E77013;
 }
@@ -116,7 +109,6 @@ html * {
 	color: #FFFFFF;
 	background-color: #E77013;
 }
-
 .eswdiv {
 	transition: all .5s ease-in;
 	margin-top: 10%;
@@ -128,8 +120,6 @@ html * {
 	font-weight: bold;
 	opacity: 1;
 }
-
-		
 .ncwdiv {
 	transition: all .5s ease-in;
 	margin-top: 0%;
@@ -141,16 +131,28 @@ html * {
 	font-weight: bold;
 	opacity: 1;
 }
-
+.notweetsdiv {
+	transition: all .5s ease-in;
+	margin-top: 0%;
+	background-color: #E00003;
+	opacity: 0;
+	-webkit-animation: glowing1 1500ms infinite;
+	-moz-animation: glowing1 1500ms infinite;
+	-o-animation: glowing1 1500ms infinite;
+	animation: glowing1 1500ms infinite;
+}
+.notweetsdiv p {
+	color: white;
+	font-weight: bold;
+	opacity: 1;
+}
 /* "Searching..." text after clicking search button*/
 #searchtext, #finalMessage, #resultsText {
 	font-size: 50px;
 }
-
 #finalMessage {
 	text-align: center;
 }
-
 #backbtn, #cancelbtn, #results {
 	transition: all 0.5s ease;
 	border: none;
@@ -166,7 +168,6 @@ html * {
 }
 #backbtn:hover, #cancelbtn:hover {
 	background: #ed802c;
-
 }
 #results:hover {
 	background: #96b53c;
@@ -182,10 +183,10 @@ h4 {
 }
 #container, #container1, #container2, #container3, #container4 {
 	border-radius: 50%;
-		margin: auto;
-		width: 200px;
-		height: 200px;
-		position: relative;
+	margin: auto;
+	width: 200px;
+	height: 200px;
+	position: relative;
 }
 #container:hover, #container1:hover, #container2:hover, #container3:hover, #container4:hover {
 	background: #C0C0C0;
@@ -200,7 +201,7 @@ h4 {
 }
 #descboxmain1 {
 	width: 50%;
-	height: 30%;
+	height: 32%;
 	margin-top: 1%;
 }
 #descriptiontxt, #searchtext {
@@ -220,7 +221,7 @@ h4 {
 }
 #resultsTable {
 	text-align: center;
-	color :rgba(216,216,216,1.00);
+	color : rgba(216,216,216,1.00);
 	border: 2px solid black;
 	width: 90%;
 	margin: auto;
@@ -233,6 +234,15 @@ h4 {
 	width: 100%;
 	background-color: rgba(0,0,0,0.40);
 }
+#tweetsdiv {
+	position: relative;
+	left: 0;
+	right: 0;
+	height: 32%;
+	width: 90%;
+	margin: auto;
+	overflow-y: auto;
+}
 tr {
 	text-align: center;
 	height: 20%;
@@ -243,8 +253,7 @@ th {
 .polarityCheck {
 	text-align: center;
 }
-
-#home{
+#home {
 	transition: all 0.5s ease;
 	top: 0%;
 	left: 0%;
@@ -254,36 +263,123 @@ th {
 	font-size: 40px;
 	font-weight: bold;
 }
-
-
-
-@-webkit-keyframes glowing {
-0% { background-color: #6A802A; -webkit-box-shadow: 0 0 3px #6A802A; }
-50% { background-color: #96b53c; -webkit-box-shadow: 0 0 40px #96b53c; }
-100% { background-color: #6A802A; -webkit-box-shadow: 0 0 3px #6A802A; }
+ @-webkit-keyframes glowing {
+0% {
+background-color: #6A802A;
+-webkit-box-shadow: 0 0 3px #6A802A;
 }
-
-@-moz-keyframes glowing {
-  0% { background-color: #6A802A; -moz-box-shadow: 0 0 3px #6A802A; }
-  50% { background-color: #96b53c; -moz-box-shadow: 0 0 40px #96b53c; }
-  100% { background-color: #6A802A; -moz-box-shadow: 0 0 3px #6A802A; }
+50% {
+background-color: #96b53c;
+-webkit-box-shadow: 0 0 40px #96b53c;
 }
-
-@-o-keyframes glowing {
-  0% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
-  50% { background-color: #96b53c; box-shadow: 0 0 40px #96b53c; }
-  100% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+100% {
+background-color: #6A802A;
+-webkit-box-shadow: 0 0 3px #6A802A;
 }
-
-@keyframes glowing {
-  0% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
-  50% { background-color: #96b53c; box-shadow: 0 0 40px #96b53c; }
-  100% { background-color: #6A802A; box-shadow: 0 0 3px #6A802A; }
+}
+ @-moz-keyframes glowing {
+ 0% {
+background-color: #6A802A;
+-moz-box-shadow: 0 0 3px #6A802A;
+}
+ 50% {
+background-color: #96b53c;
+-moz-box-shadow: 0 0 40px #96b53c;
+}
+ 100% {
+background-color: #6A802A;
+-moz-box-shadow: 0 0 3px #6A802A;
+}
+}
+ @-o-keyframes glowing {
+ 0% {
+background-color: #6A802A;
+box-shadow: 0 0 3px #6A802A;
+}
+ 50% {
+background-color: #96b53c;
+box-shadow: 0 0 40px #96b53c;
+}
+ 100% {
+background-color: #6A802A;
+box-shadow: 0 0 3px #6A802A;
+}
 }
 
 .button {
-  -webkit-animation: glowing 1500ms infinite;
-  -moz-animation: glowing 1500ms infinite;
-  -o-animation: glowing 1500ms infinite;
-  animation: glowing 1500ms infinite;
+	-webkit-animation: glowing 1500ms infinite;
+	-moz-animation: glowing 1500ms infinite;
+	-o-animation: glowing 1500ms infinite;
+	animation: glowing 1500ms infinite;
+}
+
+ @keyframes glowing1 {
+ 0% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
+ 50% {
+background-color: #E00003;
+box-shadow: 0 0 40px #E00003;
+}
+ 100% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
+}
+ @-webkit-keyframes glowing1 {
+0% {
+background-color: #A30002;
+-webkit-box-shadow: 0 0 3px #A30002;
+}
+50% {
+background-color: #E00003;
+-webkit-box-shadow: 0 0 40px #E00003;
+}
+100% {
+background-color: #A30002;
+-webkit-box-shadow: 0 0 3px #A30002;
+}
+}
+ @-moz-keyframes glowing1 {
+ 0% {
+background-color: #A30002;
+-moz-box-shadow: 0 0 3px #A30002;
+}
+ 50% {
+background-color: #E00003;
+-moz-box-shadow: 0 0 40px #E00003;
+}
+ 100% {
+background-color: #A30002;
+-moz-box-shadow: 0 0 3px #A30002;
+}
+}
+ @-o-keyframes glowing1 {
+ 0% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
+ 50% {
+background-color: #E00003;
+box-shadow: 0 0 40px #E00003;
+}
+ 100% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
+}
+ @keyframes glowing1 {
+ 0% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
+ 50% {
+background-color: #E00003;
+box-shadow: 0 0 40px #E00003;
+}
+ 100% {
+background-color: #A30002;
+box-shadow: 0 0 3px #A30002;
+}
 }
