@@ -111,7 +111,7 @@ html * {
 }
 .eswdiv {
 	transition: all .5s ease-in;
-	margin-top: 10%;
+	margin-top: 5%;
 	background-color: #E00003;
 	opacity: 0;
 }
@@ -123,6 +123,7 @@ html * {
 .ncwdiv {
 	transition: all .5s ease-in;
 	margin-top: 0%;
+	width: 100%;
 	background-color: #E00003;
 	opacity: 0;
 }
