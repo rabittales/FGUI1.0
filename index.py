@@ -10,7 +10,7 @@ from multiprocessing import Pool, cpu_count
 import numpy as np
 from flask import Flask, render_template, request, jsonify
 from tqdm import tqdm
-
+import gc
 
 
 def _processT(tweets):
@@ -90,9 +90,11 @@ app = Flask(__name__,static_url_path='/static')
 def index():
     return render_template('/index.html')
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/search', methods=['POST', 'GET'])
 def search():
+
     result = []
+
     if request.method == 'POST':
         input=request.form.to_dict(flat=False)
         print(request.form)
@@ -104,14 +106,14 @@ def search():
 
             file_name = "FinalTestingSet.json"  # json file from which tweets are retrieved
             temp_string = []  # used to hold the input string temporarily
-
+            search_term = []
+            count = 0
             # make sure the input string comprises of characters
             #for i in in_string:
             #    temp_string.append(i)
             #    search_term = ''.join(temp_string[1:len(temp_string) - 1])
             #    print("search:", search_term)
             search_term = in_string
-            count = 0  # fetched tweets counter
             with open(file_name, 'r') as f:
                 print("Searching for tweets...")
                 for tweet in f:
@@ -121,8 +123,7 @@ def search():
                         count += 1
                         if count >= tweets:
                             break
-                if count == 0 :
-                    return
+            return count
         # END OF FUNCTION
 
 
@@ -133,7 +134,9 @@ def search():
         tweets = int(tweets[0])
         search_string = input['search']  # prompt user for search keyword
         print("search term before:",search_string[0])
-        createDataSet(search_string[0])  # build test and training dataset
+        count = createDataSet(search_string[0])  # build test and training dataset
+        if count == 0:
+            return jsonify({'results': result, 'polar': 0})
 
         tweetProcessor = PreProcessTweets()
 

@@ -76,7 +76,7 @@
 	<div id="descboxmain1">
 		<p id="descriptiontxt" onload="descdft()"></p>
 	</div>
-	<button id="cancelbtn" onClick="cancel()" type="button" class="btn btn-default">Cancel</button>
+	<!--<button id="cancelbtn" onClick="cancel()" type="button" class="btn btn-default">Cancel</button>-->
 	<button id="results" onClick="progresscomplete()" type="button" class="btn button btn-default">Show Results</button>
 </div>
 
@@ -131,7 +131,7 @@
   		strokeWidth: avgStroke,
   		trailWidth: avgTrail,
   		easing: 'easeInOut',
-  		duration: 60000,
+  		duration: 30000,
   		text: {
     		autoStyleContainer: false
   		},
@@ -324,10 +324,18 @@
 			main1.style.top="-20%";
 			searchtext.innerHTML = "Searching " + search + "...";
 			$.ajax({
-                url: "/",
+                url: "/search",
                 type: "POST",
                 data: {search : search , select : select },
                 success: function(response){
+                    if (response.polar == 0){
+                        cancel();
+                        setTimeout(function () {
+                            document.getElementById("notweetsdiv").style.opacity = "0.7"; //show no tweets found
+                        }, 1050);
+
+                        Response == -1;
+                    }
                     Response = response.results;
                     polarity = response.polar;
                     loadingBar1();
@@ -337,12 +345,7 @@
                 },
                 error : function(xhr,errmsg,err) {
                 // show status code and response content
-                    cancel();
-				setTimeout(function(){
-					document.getElementById("notweetsdiv").style.opacity="0.7"; //show no tweets found
-				}, 1050);			
-				
-                Response == -1;
+
                 }
 
             });
