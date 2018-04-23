@@ -132,9 +132,10 @@ def search():
         print(input['select'])
         tweets = input['select']
         tweets = int(tweets[0])
-        search_string = input['search']  # prompt user for search keyword
-        print("search term before:",search_string[0])
-        count = createDataSet(search_string[0])  # build test and training dataset
+        search_string = input['search'] # prompt user for search keyword
+        search =search_string[0].lower()
+        print("search term before:",search)
+        count = createDataSet(search)  # build test and training dataset
         if count == 0:
             return jsonify({'results': result, 'polar': 0})
 
